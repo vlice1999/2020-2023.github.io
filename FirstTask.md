@@ -159,3 +159,5 @@
   plt.imshow(display_grid,aspect = 'auto',cmap = 'viridis')
  plt.show()
  ```
+ ### 我的疑问
+ 图片显示，归一化和扩展到[0,255]的原理比较不清楚。
