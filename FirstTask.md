@@ -92,4 +92,20 @@
  ![vgg16](https://github.com/vlice1999/2020-2023.github.io/blob/master/vgg_layers.png)
  #### 可视化CNN
  以VGG16为例，源代码路径：https://github.com/duoergun0729/adversarial_examples/blob/master/code/1-case2-keras.ipynb
+ ```py
+ # 使用vgg16
+ from keras.applications.vgg16 import VGG16
+ import matplotlib.pyplot as plt
+ %matplotlib inline
+ # 加载基于ImageNet2012数据集预训练的参数
+ model = VGG16(weights = 'imagenet')
  
+ # 加载图片（Pig）
+ from keras.preprocessing import image
+ from keras.applications.vgg16 import preprocess_input, decode_predictions
+ import numpy asa np
+ 
+ # 图片（Pig）的路径
+ img_path = input("请输入图片的路径：")
+ 
+ ```
