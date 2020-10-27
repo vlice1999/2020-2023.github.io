@@ -89,5 +89,5 @@
  #### CNN的常见组件
  卷积层，池化层，全连接层，非线性变化层，Dropout
  #### VGG的结构
- ![vgg16](C:\\Users\lenovo\Desktop\研究生\vgg_layers.png)
+ ![vgg16](C:\Users\lenovo\Desktop\研究生\vgg_layers.png)
  
