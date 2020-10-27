@@ -107,5 +107,55 @@
  
  # 图片（Pig）的路径
  img_path = input("请输入图片的路径：")
+ # 调整图片到指定大小 224*224
+ img = image.load_img(img_path,target_size = (224,224))
+ # 展示图片
+ plt.imshow(img)
+ plt.show()
+ # 扩展维度，适配模型输入大小(1,224,224,3)
+ x = np.expend_dims(x,axis = 0);
+ # 图像预处理
+ x = preprocess_input(x)
  
+ # 对图片进行预测
+ preds = model.predict(x)                                    #得到预测结果
+ print('Predicted:', decode_predictions(preds, top = 3)[0])  #展示前三的预测
+ 
+ from keras import models
+ layer_names = ['block1_conv1', 'block3_conv1', 'block5_conv1']
+ # 获取指定层的输出:
+ layer_outputs = [model.get_layer(layer_name).output for layer_name in layer_names]
+ # 创建新的模型，该模型的输出为指定的层的输出
+ activation_model = models.Model(inputs = model.input, outputs = layer_outputs)
+ 
+ # 获得图片（pig）的输出
+ activations = activation_model.predict(x)
+ 
+ images_per_row = 8
+ 
+ for layer_name, layer_activation in zip(layer_names, activations):
+  # 获取卷积核个数
+  n_features = layer_activation.shape[-1]
+  # 特征图的形状（1,size,size,n_features）
+  size = layer_activation.shape[1]
+  # 最多展示八行
+  n_cols = 8
+  display_grid = np.zeros((size * n_cols, images_per_row * size)) #画板
+  for col in range(n_cols):
+   for row in range(images_per_row):
+    channel_image = layer_activation[0,:,:,col*images_per_row + row] #范围不固定，需要根据均值和方差进行归一化
+    channel_image -= channel_image.mean()
+    channel_image /= channel_image.std()
+    # 数据扩展到[0,255]范围
+    channel_image *= 128
+    channel_image += 128
+    channel_image = np.clip(channel_image,0,255).astype('uint8')
+    display_grid[col * size : (col + 1) * size, row * size : (row + 1) * size] = channel_image
+  # 展示图片
+  scale = 1. / size
+  plt.figure(figsize = (scale * display_grid.shape[1], scale * display_grid.shape[0]))
+  plt.title(layer_name)
+  plt.grid(False)
+  plt.imshow(display_grid,aspect = 'auto',cmap = 'viridis')
+ plt.show()
  ```
