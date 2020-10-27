@@ -36,29 +36,53 @@
  #### 基于白盒：
  ILCM（最相似替代算法）
  
- 
  FGSM（快速梯度算法）
- 
  
  BIM（基础迭代算法）
  
- 
  JSMA（显著图攻击算法）
- 
  
  DeepFool（DeepFool算法）
  
- 
  C/W（C/W算法）
  #### 黑盒攻击方法：
- Single Pixel Attack（单像素攻击），Local Search Attack（本地搜索攻击）
+ Single Pixel Attack（单像素攻击）
+ 
+ Local Search Attack（本地搜索攻击）
  ### 深度学习脆弱性加固
+ · Feature squeezing(特征凝结)
+ 
+ · Spatial smoothing（空间平滑）
 
-
+ · Label smoothing(标签平滑)
+ 
+ · Adversarial training（对抗训练）
+ 
+ · Virtual adversarial training（虚拟对抗训练）
+ 
+ · Gaussian data augmentation（高斯数据增强）
 
  ### 参考文献：
  [1]: 新浪科技 《研究人员骗过特斯拉汽车：把35英里限速看成85英里》 url:http://www.techweb.com.cn/internet/2020-02-20/2777981.shtml
  
  
  [2]:生物学谢博士 《自动驾驶汽车感知曝漏洞：很容易被假路标欺骗》url:https://baijiahao.baidu.com/s?id=1660646822297982069&wfr=spider&for=pc
+ 
+ ## Day2
+ 阅读《AI安全之对抗样本入门》
+ ### 深度学习基本过程
+ #### 1.数据预处理
+ #### 2.定义网络结构
+ Dense层，Activation层，DropOut层，Embedding层（把词映射到一个维度的向量中），Flatten层（将输入压平，把多维的数据一维化），Permute层（按照深度学习框架指定的模式重排），Reshape层（将输入的shape转换成特定的shape）
+ #### 3.定义损失函数
+ #### 4.反向传播和优化器
+ 优化器一般包括SGD，RMSprop，Adam
+ #### 5.范数
+ · L0范数：用于度量非零元素的个数，在对抗样本中，指对抗样本相对原始图片，改变像素的个数
+ 
+ · L1范数：曼哈顿距离，最小绝对误差等。使用L1范数可以度量两个向量间的差异，表示向量元素中非零元素的绝对值之和。
+ 
+ · L2范数：向量元素的平方再开方。再对抗样本中，通常指对抗样本相对原始图片，所修改像素的变化量的平方和再开方。
+ 
+ · 无穷范数：L
  
