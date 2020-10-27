@@ -89,7 +89,7 @@
  #### CNN的常见组件
  卷积层，池化层，全连接层，非线性变化层，Dropout
  #### VGG的结构
- ![](https://github.com/vlice1999/2020-2023.github.io/blob/master/vgg_layers.png)
+ ![vgg16](https://github.com/vlice1999/2020-2023.github.io/blob/master/vgg_layers.png)
  #### 可视化CNN
- 以VGG16为例，源代码路径：https://github.com/duoergun0729/adversarial_examples/code/1-case2-keras.ipynb
+ 以VGG16为例，源代码路径：https://github.com/duoergun0729/adversarial_examples/blob/master/code/1-case2-keras.ipynb
  
