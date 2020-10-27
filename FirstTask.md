@@ -103,7 +103,7 @@
  # 加载图片（Pig）
  from keras.preprocessing import image
  from keras.applications.vgg16 import preprocess_input, decode_predictions
- import numpy asa np
+ import numpy as np
  
  # 图片（Pig）的路径
  img_path = input("请输入图片的路径：")
