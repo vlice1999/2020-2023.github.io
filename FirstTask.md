@@ -166,7 +166,7 @@
  |        |实际为真|实际为假|
  |--------|:--------:|:-------:|
  |预测为真|True positive(TP)|False positive(FP)|
- |预测为假|False negative(FN)|True nagetive(NT)|
+ |预测为假|False negative(FN)|True nagetive(TN)|
  
  #### 准确率与召回率
  Recall Rate    召回率/查全率 = TP/(TP + FN) 
@@ -175,7 +175,7 @@
  
  #### 准确度与F1-score
  
-$\frac {a+c+1}{b+c+2}$
+Accuracy = $\frac {TP + TN}{P + N}$ = $\frac {TP + TN}{TP + TN + FN + FN}$
  
  ### 我的疑问
  图片显示，归一化和扩展到[0,255]的原理比较不清楚。
