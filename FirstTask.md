@@ -230,3 +230,56 @@
  |t10k-images-idx3-ubyte.gz|10000个图片测试样本|
  |t10k-labels-idx1-ubyte.gz|10000个图片训练样本的标注|
  
+ ```py
+ mnist = input_data.read_data_sets("MNIST_data/",one_hot = True)
+ ```
+ #### 3.定义网络结构
+ 输入层大小784，隐含层300个节点，激活函数relu，中间为了避免过拟合，使用DropOut层，输出层大小为10，激活函数为softmax。为了导出导入pb文件方便，将输入命名为input，将输出命名为output。
+ 
+ ```py
+ in_units = 784 # 输入节点个数
+ h1_units = 300 # 隐藏层节点数
+ 
+ # 初始化隐藏层权重W1，服从默认设置为0，标准差为0.1的截断正态分布
+ W1 = tf.Variable(tf.truncated_normal([in_units,h1_units],stddev = 0.1))
+ 
+ b1 = tf.Variable(tf.zeros([h1_units])) #隐含层偏置b1全部初始化为0
+ W2 = tf.Variable(tf.zeros([h1_units,10])) #输出层权重初始化
+ b2 = tf.Variable(tf.zeros[10]) #输出层
+ x = tf.placeholder(tf.float32,[None, in_units], name = "input")
+ keep_prob = tf.placeholder(tf.float32, name = "keep_prob")
+ 
+ # 定义模型结构
+ hidden1 = tf.nn.relu(tf.matmul(x,W1) + b1)
+ hidden1_drop = tf.nn.dropout(hidden1, keep_prob)
+ y = tf.nn.softmax(tf.matmul(hidden1_drop, W2) + b2, name = "output")
+ ```
+ #### 4.定义损失函数和优化器
+ 本例为多分类问题，采用交叉熵定义损失函数，使用Adagrad优化器
+ ```py
+ # 定义损失函数和优化器
+ y_ = tf.placeholder(tf.float32, [None, 10])
+ cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y),reduction_indices = [1]))
+ train_step = tf.train.AdagradOptimizer(0.3).minisize(cross_entropy)
+ ```
+ #### 5.训练与验证
+ 初始化参数，迭代训练5000轮，每轮训练的批量大小为100，为了抵御过拟合，每轮训练时仅通过75%的数据。每训练200批次，打印中间结果。
+ ```py
+ sess.run(tf.global_variables_initializer())
+ correct_prediction = tf.equal(tf.arg_max(y,1), tf.arg_max(y_, 1))
+ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+ for i in range(0,5000):
+  batch_xs, batch_ys = mnist.train.next_batch(100)
+  _, loss = sess.run([train_step, cross_entropy],{x: batch_xs, y:batch_ys, keep_prob:0.75})
+  
+  if i%200 == 0:
+   acc = accuracy.eval(feed_dict = {x:mnist.test.images, y_:mnist.test.labels, keep_prob:1})
+   print("loss = {}, acc = {}".format(loss, acc))
+ ```
+ 
+ ### 我的疑问
+ 1. 不会tf.palceholder的使用
+ 
+ 2. 损失函数，优化器的使用。
+ 
+ 3. tensorflow保存模型文件
