@@ -205,4 +205,28 @@
  ② 图像处理算法回顾
  
  ③ 白盒攻击算法入门
- ### 下午再写
+ ### Tensorflow 
+ 源代码：https://github.com/duoergun0729/adversarial_examples/blob/master/code/2-tensorflow.ipynb
+ #### 1.加载相关库
+ ```py
+ import tensorflow as tf
+ from tensorflow.examples.tutorials.mnist import input_data
+ from tensorflow.python.framework import graph_util
+ import os
+ ```
+ #### 2.加载数据集
+ mnist数据集,链接 http://yann.lecun.com/exdb.mnist/
+ 
+ 默认形状为[28,28,1]，为了便于处理，改变其维度为一维向量784。
+ 
+ 特征数据归一化：默认为[0,255]，通过除以255完成
+ 
+ 默认的标签数据类型为整数，取值范围为0到9。为了便于网络训练，把标签数据转换为One-Hot编码（独热编码）。
+ 
+ |文件名称|文件用途|
+ |:-----:|:------:|
+ |train-images-idx3-ubyte.gz|60000个图片训练样本|
+ |train-labels-idx1-ubyte.gz|60000个图片训练样本的标注|
+ |t10k-images-idx3-ubyte.gz|10000个图片测试样本|
+ |t10k-labels-idx1-ubyte.gz|10000个图片训练样本的标注|
+ 
