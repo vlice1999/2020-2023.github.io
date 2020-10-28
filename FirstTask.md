@@ -175,12 +175,34 @@
  
  #### 准确度与F1-score
  
-$Accuracy$ = $\frac {TP + TN}{P + N}$ = $\frac {TP + TN}{TP + TN + FN + FN}$
+ $Accuracy$ = $\frac {TP + TN}{P + N}$ = $\frac {TP + TN}{TP + TN + FN + FN}$
 
-$F1-Score$ = $\frac {2TP}/{2TP + FP + FN}$
+ $F1-Score$ = $\frac {2TP}{2TP + FP + FN}$
+ #### ROC与AUC
+ ROC(Recevier Operating Characteristic，受试者工作特征)曲线。以真阳性率为纵坐标，假阳性率为横坐标绘制的曲线。
+ 
+ 真阳性率 TPR = TP/(TP + FN)
+ 
+ 假阳性率 FPR = FP/(FP + TN)
+ 
+ 曲线越接近左上角，说明分类效果越好。因为（0，1）代表完美分类。
+ 
+ AUC(Area Under the Recevier Operating Characteristic)曲线是量化衡量ROC分类性能的指标，指ROC曲线所覆盖的面积，越大（越接近1）越好。
+ 
+ ### 集成学习（Ensemble Learning）
+ 使用一系列学习器进行学习，并使用某种规则把各个学习结果进行整合从而获得比单个学习器更好的学习效果的一种机器学习方法。如果使用的多个分类器相同，则为同质；否则为异质。综合判断的策略分为两种：加权平均和投票。
+ 可以粗略的分为两类，第一类是个体学习器之间存在强依赖关系，一系列个体学习器基本都需要串行生成，代表算法为Boosting系列算法。第二类是个体学习器不存在依赖关系，一系列个体学习器可以并行生成，代表算法是Bagging算法和随机森林（Random Forest）系列算法。
+ #### Boosting算法（待补全）
+ #### Bagging算法（待补全）
  
  ### 我的疑问
  图片显示，归一化和扩展到[0,255]的原理比较不清楚。
  
  ## Day3
+ ### 今日目标
+ ① TensorFlow，Pytorch入门，学习简单网络的搭建
  
+ ② 图像处理算法回顾
+ 
+ ③ 白盒攻击算法入门
+ ### 下午再写
