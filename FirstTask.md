@@ -277,9 +277,28 @@
    print("loss = {}, acc = {}".format(loss, acc))
  ```
  
+ ### PyTorch入门
+ 源代码：https://github.com/duoergun0729/adversarial_examples/blob/master/code/2-pytorch.ipynb
+ 
+ #### 1.加载相关库
+ ```py
+ import os
+ import torch
+ import torchvision
+ from torch.autograd import Variable
+ import torch.utills.data.dataloader as Data
+ ```
+ #### 2.加载数据集
+ PyTorch对常见的数据集进行了封装。PyTorch对每个Tensor包括输入节点，并且都可以有自己的梯度值，因此训练数据要设置train = True，测试数据集要设置为train = False
+ ```py
+ train_data = torchvision.datasets.MNIST('dataset/mnist-pytorch',train = True, transform =  torchvision.transforms.ToTensor(), download = True)
+ test_data = torvhvision.datasets.MNIST('dataset/mnist-pytorch',train = False, transform = torchvision.transforms.ToTensor())
+ # 数据归一化
+ # transform = tranforms.Compose([torchvision.transforms.Totensor(),torchvision.transforms.Normalize([0.5],[0.5] )])
+ ```
+ #### 3.定义网络结构
+
  ### 我的疑问
- 1. 不会tf.palceholder的使用
+ 1. 损失函数，优化器的使用。
  
- 2. 损失函数，优化器的使用。
- 
- 3. tensorflow保存模型文件
+ 2. tensorflow保存模型文件
