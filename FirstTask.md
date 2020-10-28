@@ -159,5 +159,25 @@
   plt.imshow(display_grid,aspect = 'auto',cmap = 'viridis')
  plt.show()
  ```
+ ### 常见衡量指标
+ #### 测试数据
+ #### 混淆矩阵
+ 
+ |        |实际为真|实际为假|
+ |--------|:--------:|:-------:|
+ |预测为真|True positive(TP)|False positive(FP)|
+ |预测为假|False negative(FN)|True nagetive(NT)|
+ 
+ #### 准确率与召回率
+ Recall Rate    召回率/查全率 = TP/(TP + FN) 
+ 
+ Precision Rate 准确率/查准率 = TP/(TP + FP)
+ 
+ #### 准确度与F1-score
+ Accuracy = $${TP + TN\over P + N}$$
+ 
  ### 我的疑问
  图片显示，归一化和扩展到[0,255]的原理比较不清楚。
+ 
+ ## Day3
+ 
