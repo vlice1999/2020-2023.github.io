@@ -174,7 +174,8 @@
  Precision Rate 准确率/查准率 = TP/(TP + FP)
  
  #### 准确度与F1-score
- Accuracy = $${TP + TN\over P + N}$$
+ 
+$\frac {a+c+1}{b+c+2}$
  
  ### 我的疑问
  图片显示，归一化和扩展到[0,255]的原理比较不清楚。
