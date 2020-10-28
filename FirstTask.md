@@ -297,8 +297,77 @@
  # transform = tranforms.Compose([torchvision.transforms.Totensor(),torchvision.transforms.Normalize([0.5],[0.5] )])
  ```
  #### 3.定义网络结构
-
- ### 我的疑问
- 1. 损失函数，优化器的使用。
+ 使用两层网络结构，使用BatchNorm层替换Dropout层，在抵御过拟合的同时加快了训练的收敛速度。在PyTorch中定义网络结构，通常需要继承torch.nn.Module类。
+ 
+ 在forward中完成前向传播的定义，在init中完成主要网络层的定义：
+ ```py
+ class Net(torch.nn.Moudle):
+  def __init__(self):
+   super(Net, self).__init__()
+   self.dense = torch.nn.Sequential(
+    # 全连接层
+    torch.nn.Linear(784,512),
+    # BatchNorm层
+    torch.nn.BatchNormld(512),
+    torch.nn.ReLU(),
+    torch.nn.Linear(512,10),
+    torch.nn.ReLU()
+   )
+   
+  def forward(self, x):
+   x = x.view(-1,784)
+   x = self.dense(x)
+   return torch.nn.functional.log_softmax(x, dim = 1)
+ ```
+ #### 4.定义损失函数和优化器
+ 损失函数使用交叉熵CrossEntropyLoss，优化器使用Adam，优化的对象是全部参数：
+ ```py
+ optimizer = torch.optim.Adam(model.parameters())
+ loss_func = torch.nn.CrossEntropyLoss()
+ ```
+ #### 5.训练与验证
+ 训练阶段把训练数据进行前向传播后，使用损失函数计算训练数据的真实标签与预测标签的损失值，然后显示调用反向传递backword()，使用优化器来调整参数。
+ ```py
+ for i, data in enumerate(train_loader):
+  inputs, labels = data
+  inputs, labels = inputs.to(device), labels.to(device)
+  
+  # 梯度清零
+  optimizr.zero_grad()
+  # 前向传播
+  outputs = model(inputs)
+  loss = loss_func(outputs, labels)
+  # 反向传递
+  loss.backward()
+  optimizer.step()
+ ```
+ 训练过程可视化，打印训练的中间结果，例如每100个批次打印下平均损失值。
+ ```py
+ sum_loss += loss.item()
+ if (i + 1) % 100 == 0:
+  print('epoch = %d, batch = %d loss: %0.4f' %(eporch+1, i+1, sum_loss/100))
+  sum_loss = 0.0
+ ```
+ 验证阶段，手动关闭反向传递，通过torch.no_grad()实现：
+ ```py
+ with totch.no_grad():
+  correct = 0
+  total = 0
+  for data in test_loader:
+   images, labels = data
+   images, labels = images.to(device), labels.to(device)
+   outputs = model(images)
+   # 取得分最高的那个类
+   _, predicted = torch.max(outputs.data, 1)
+   total += labels.size(0)
+   correct += (predicted == labels).sum()
+   print('epoch = %d accuracy = %0.2f%%' % (epoch + 1,(100 * correct / total)))
+ ```
+保存模型文件为pth:
+```py
+torch.save(model.state_dict(), 'model/pytorch-mnist.pth')
+```
+### 我的疑问
+ 1. Tensorflow 损失函数，优化器的使用。
  
  2. tensorflow保存模型文件
