@@ -424,6 +424,30 @@ print("label = {}".format(label))
 
 https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json
 #### 使用Tensorflow进行图片分类
+Tensorflow的模型多以pb文件保存，以Inception为例，模型文件为pb格式，其中的classify_image_graph_def.pb文件就是训练好的Inception模型，imagenet_synset_to_human_label_map.txt是类别文件
+
+```
+wegt http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz
+tar  -zxvf inception-2015-12-05.tgz
+x classify_image_graph_def.pb
+x cropped_panda.jpg
+x imagenet_2012_challenge_label_map_proto.pbtxt
+x imagenet_synset_to_human_label_map.txt
+x LICENSE
+```
+图片数据的预处理在Inception的计算图中完成
+```py
+path = "../picture/pig.jpg"
+image_data = tf.gfile.FastGFile(path, "rb").read()
+```
+加载pb文件，在会话中还原完整的计算图以及网络中的各层参数。
+```py
+session = tf.Session()
+def create_graph(dirname):
+ with tf.gfile.FastGFile(dirname, 'rb') as f:
+  graph_def = session.graph_def
+  graph_def.Pa
+```
 
 ### 我的疑问
  1. Tensorflow 损失函数，优化器的使用。
