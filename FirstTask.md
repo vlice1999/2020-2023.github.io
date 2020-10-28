@@ -175,7 +175,9 @@
  
  #### 准确度与F1-score
  
-Accuracy = $\frac {TP + TN}{P + N}$ = $\frac {TP + TN}{TP + TN + FN + FN}$
+$Accuracy$ = $\frac {TP + TN}{P + N}$ = $\frac {TP + TN}{TP + TN + FN + FN}$
+
+$F1-Score$ = $\frac {2TP}/{2TP + FP + FN}$
  
  ### 我的疑问
  图片显示，归一化和扩展到[0,255]的原理比较不清楚。
