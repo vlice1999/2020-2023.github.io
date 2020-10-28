@@ -205,6 +205,20 @@
  ② 图像处理算法回顾
  
  ③ 白盒攻击算法入门
+ ### 张量（tensor）和计算图/数据流图
+ 以Tensorflow为例：
+ ```py
+ import tensorflow as tf
+ 
+ a = tf.placeholder(tf.int64)
+ b = tf.placeholder(tf.int64)
+ c = tf.placeholder(tf.int64)
+ 
+ d = (a + b) * c
+ 
+ with tf.Session() as sess:
+  print(sess.run(d, feed_dict = {a:1,b:2,c:3}))
+ ```
  ### Tensorflow 
  源代码：https://github.com/duoergun0729/adversarial_examples/blob/master/code/2-tensorflow.ipynb
  #### 1.加载相关库
@@ -367,6 +381,50 @@
 ```py
 torch.save(model.state_dict(), 'model/pytorch-mnist.pth')
 ```
+### 使用预训练模型
+#### 使用PyTorch进行图片分类
+PyTorch通过torchvision库封装了对预训练模型的下载和使用。模型的预训练权重将下载到~/.torch/models/并在载入模型时自动载入。
+
+加载需要的Python库，并对图像进行预处理。使用基于Imagenet数据集训练的ResNet50模型，图片大小转换成（224，224）。PyTorch在处理图片时，信道放在第一个维度，所以实际输入图像为（3，224，224）.
+
+PyTorch加载预训练模型后，默认为训练模式，需要手动调成eval（预测）模式。
+```py
+import os
+import numpy as np
+import torch
+import torch.nn
+import torchvision.models as models
+from torch.autograd import Variable
+import torch.cuda
+import torchvision.transforms as transforms
+from PIL import Image
+# 手工调用eval方法进入预测模式
+resnet50 = models.resnet50(pretrained = True).eval()
+path = input("Image path:")
+img = Image.open(path)
+img = img.resize(224,224)
+img = np.array(img).copy().astype(np.float32)
+```
+手工标准化处理图片
+```py
+mean = [0.485, 0.456, 0.406]
+std = [0.229, 0.224, 0.255]
+img /= 255.0
+img = (img - mean)/std
+img = img.transpose(2,0,1)
+img = np.expend_dims(img, axis = 0)
+img = Variable(torch.from_numpy(img).float())
+```
+对图片进行预测
+```py
+label = np.argmax(resnet50(img).data.cpu().numpy())
+print("label = {}".format(label))
+```
+标签与物体对应关系参考链接：
+
+https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json
+#### 使用Tensorflow进行图片分类
+
 ### 我的疑问
  1. Tensorflow 损失函数，优化器的使用。
  
