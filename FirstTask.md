@@ -453,3 +453,7 @@ def create_graph(dirname):
  1. Tensorflow 损失函数，优化器的使用。
  
  2. tensorflow保存模型文件
+ 
+ ## Day4
+ 我有了使自己震惊到的一个想法，是否可以通过分析频谱来进行图像识别。。。
+ 
