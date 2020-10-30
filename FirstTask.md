@@ -526,7 +526,7 @@ print(tensorlist)
  ### 图像转换
  #### 仿射变换
  $$
- \left|begin{matrix}
- x'//y'//1 end{matrix}\right| = \left|begin{matrix}a_{1}&a_{2}&t_{1} //a_{3}&a_{4}&t_{2}//0 & 0 & 1 end{matrix}\right| X \left|begin{matrix}x//y//1 end{matrix}\right|
+ \left|\begin{matrix}
+ x'//y'//1 \end{matrix}\right| = \left|\begin{matrix}a_{1}&a_{2}&t_{1} //a_{3}&a_{4}&t_{2}//0 & 0 & 1 \end{matrix}\right| X \left|\begin{matrix}x//y//1 \end{matrix}\right|
  $$
  
