@@ -527,7 +527,7 @@ print(tensorlist)
  #### 仿射变换
  $$
  \left|\begin{matrix}
- x'\\y'\\1 \end{matrix}\right| = \left|\begin{matrix}a_{1}&a_{2}&t_{1} \\a_{3}&a_{4}&t_{2}\\0 & 0 & 1 \end{matrix}\right| X \left|\begin{matrix}x\\y\\1 \end{matrix}\right|
+ x' \\ y' \\ 1 \end{matrix}\right| = \left|\begin{matrix}a_{1}&a_{2}&t_{1} \\ a_{3}&a_{4}&t_{2} \\ 0 & 0 & 1 \end{matrix}\right| X \left|\begin{matrix}x \\ y \\ 1 \end{matrix}\right|
  $$
- 其中$\left|\begin{matrix}a_{1}&a_{2}\\a_{3}&a_{4} \end{matrix}\right|$代表旋转和缩放变化，$\left|\begin{matrix} t_{1} & t_{2} \end{matrix}\right|$代表平移变化，$\left|\begin{matrix} a_{1}&a_{2}&t_{1}\\a_{3}&a_{4}&t_{2}\end{matrix}\right|$因此被称为放射变化
+ 其中$\left|\begin{matrix}a_{1}&a_{2} \\ a_{3}&a_{4} \end{matrix}\right|$代表旋转和缩放变化，$\left|\begin{matrix} t_{1} \\ t_{2} \end{matrix}\right|$代表平移变化，$\left|\begin{matrix} a_{1}&a_{2}&t_{1} \\ a_{3}&a_{4}&t_{2}\end{matrix}\right|$因此被称为仿射变化
  
