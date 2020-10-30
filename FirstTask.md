@@ -446,8 +446,29 @@ session = tf.Session()
 def create_graph(dirname):
  with tf.gfile.FastGFile(dirname, 'rb') as f:
   graph_def = session.graph_def
-  graph_def.Pa
+  graph_def.PaserFromString(f.read())
+  _ = tf.import_graph_def(graph_def, name = )
+ceate_graph("models/classify_image_graph_def.pb")
+session.run(tf.global_varibales_initializer())
 ```
+获取输入节点和输出节点，运行计算图获得结果
+```py
+logits = session.graph.get_tensor_by_name('softmax/logits:0')
+x = session.graph.get_tensor_by_name('DecodeJpeg/contents:0')
+predictions = session.run(logits, feed_dict = {x:image_data})
+predictions = np.squeeze(predictions)
+top_k = predicitons.argsort()[-3:][::-1]
+for node_id in top_k:
+ human_string = node_lookup.id_to_string(node_id)
+ score = predictions[node_id]
+ print('%s (score = %.5f)' % (human_string, score))
+```
+把pb文件的结构打印出来
+```py
+tensorlist =[n.name for n in session.graph_def.node]
+print(tensorlist)
+```
+### 书P74-P75（未完）
 
 ### 我的疑问
  1. Tensorflow 损失函数，优化器的使用。
@@ -456,4 +477,55 @@ def create_graph(dirname):
  
  ## Day4
  我有了使自己震惊到的一个想法，在训练神经网络时加入图像的频谱图会不会增加图像识别的准确性。
+ ### 图像格式
+ 以opencv为例，源代码链接:http://github.com/duoergun0729/adversarial_examples/blob/master/code/4-demo.ipynb
+ #### 彩图，灰度图，二值化
+ opencv显示RGB彩图。opencv默认格式为BGR，所以需要转换一下
+ ```py
+ import cv2
+ from matplotlib import pyplot as plt
+ img_path = input("Image_path")
+ img = cv2.imread(img_path)
+ show_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+ plt.imshow(show_img)
+ plt.show()
+ print(img.shape)
+ ```
+ opencv转灰度图
+ ```py
+ show_grayimg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+ plt.imshow(show_grayimg, cmap = plt.cm.gray)
+ plt.show()
+ print(img.shape)
+ ```
+ opencv转二值图
+ ```py
+ ret, thresh = cv2.threshold(show_img, 220, 255, cv2.THRESH_BINARY)
+ plt.imshow(thresh, cmap = plt.cm.gray)
+ plt.show()
+ ```
+ 关于cv2.threshold，原型为
+ ```py
+ cv2.threshold(src,x,y,Methods)
+ ```
+ ·src 指原始图像，该图像为灰度图
+ 
+ ·x 指用来对像素值进行分类的阈值
+ 
+ ·y 指当像素值高于阈值时应该被赋予的新的像素值
+ 
+ ·Methods 指不同的阈值方法，包括：cv2.THRESH_BINARY cv2.THRESH_BINARY_INV cv2.THRESH_TRUNC cv2.THRESH_TOZERO cv2.THRESH_TOZERO_INV
+ #### BMP,JPEG,GIF,PNG
+ ·BMP 无损压缩
+
+ ·JPEG 有损压缩
+
+ ·GIF 基于LZW算法的连续色调的无损压缩，压缩率一般在50%左右。可制作动图
+
+ ·PNG 能够提供长度比GIF小30%的无损压缩图像文件。
+ ### 图像转换
+ #### 仿射变换
+ \left|begin{matrix}
+ x'//y'//1 end{matrix}|\right = \left|begin{matrix}a_{1} a_{2} t_{1} //a_{3} a_{4} t_{2}//0 0 1 end{matrix}|\right X \left|begin{matrix}x//y//1 end{matrix}|\right
+ 
  
