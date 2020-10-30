@@ -525,18 +525,60 @@ print(tensorlist)
  ·PNG 能够提供长度比GIF小30%的无损压缩图像文件。
  ### 图像转换
  #### 仿射变换
- $$
- \left|\begin{matrix}
- x' \\
- y' \\ 
- 1 \end{matrix}\right| = \left|\begin{matrix}a_{1}&a_{2}&t_{1} \\ 
- a_{3}&a_{4}&t_{2} \\
- 0 & 0 & 1 \end{matrix}\right| X \left|\begin{matrix}x \\
- y \\ 
- 1 \end{matrix}\right|
- $$
- 其中$\left|\begin{matrix}a_{1}&a_{2} \\
- a_{3}&a_{4} \end{matrix}\right|$代表旋转和缩放变化，$\left|\begin{matrix} t_{1} \\
- t_{2} \end{matrix}\right|$代表平移变化，$\left|\begin{matrix} a_{1}&a_{2}&t_{1} \\
- a_{3}&a_{4}&t_{2}\end{matrix}\right|$因此被称为仿射变化
+ $$\left|\begin{matrix} x' \\y' \\ 1 \end{matrix}\right| = \left|\begin{matrix}a_{1}&a_{2}&t_{1} \\ a_{3}&a_{4}&t_{2} \\ 0 & 0 & 1 \end{matrix}\right| X \left|\begin{matrix}x \\
+ y \\  1 \end{matrix}\right| $$
+ 其中$\left|\begin{matrix}a_{1}&a_{2} \\ a_{3}&a_{4} \end{matrix}\right|$代表旋转和缩放变化，$\left|\begin{matrix} t_{1} \\ t_{2} \end{matrix}\right|$代表平移变化$\left|\begin{matrix} a_{1}&a_{2}&t_{1} \\a_{3}&a_{4}&t_{2}\end{matrix}\right|$因此被称为仿射变化
+ 
+ Opencv支持仿射变化
+ ##### warpAffine函数
+ ```py
+ warpAffine(src, M, dsize, flags, borderMode, borderValue)
+ ```
+ ·src 输入变化前的图像
+ 
+ ·M 仿射变化矩阵
+ 
+ ·dsize 设置输出图像大小
+ 
+ ·flags 设置插值方式，默认为线性插值
+ 
+ ·borderMode 边界像素模糊
+ 
+ ·borderValue 边界填充值，默认情况下为0，即填充黑色
+ 
+ ##### getRotationMatrix2D函数
+ ```py
+ getRotationMatrix2D(center, angle, scale)
+ ```
+ ·center 旋转中心
+ 
+ ·angle 旋转角度
+ 
+ ·scale 图像缩放倍数
+ ### 图像去噪
+ 高斯噪声（Gaussian noise）是指其概率密度分布服从高斯分布的一种噪声。盐噪声（Salt noise）为白色，椒噪声（Pepper noise）为黑色。
+ 
+ 叠加噪声可以通过skimage库，其提供了skimage.util.random_noise函数用于增加噪声
+ ```py
+ skimage.util.random_noise(image, mode = 'gaussion',seed = None,clip = True,mean,var)
+ ```
+ #### 中值滤波
+ ```py
+ cv2.medianBlur()
+ ```
+ #### 高斯滤波
+ ```py
+ cv2.GaussianBlur()
+ ```
+ #### 高斯双边滤波
+ ```py
+ bilateralFilter(src,n,sigmaColor,sigmaSpace,borderType)
+ ```
+ ·src：输入变化前图像
+ ·n：过滤中每个像素邻域的直径范围
+ ·sigmaColor：颜色空间过滤器的标准差值
+ ·sigmaSpace：坐标空间中滤波器的标准差值
+ ·borderType：用于推断图像外部像素的某种边界模式，默认值为 BORDER_DEFAULT
+ 
+ ## Day5
  
