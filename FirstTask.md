@@ -582,5 +582,83 @@ print(tensorlist)
  
  ## Day5
  白盒攻击算法
- ### 对抗样本
+ ### 对抗样本的基本原理
+ 从数学角度来描述对抗样本，输入数据x，分类器为f，对应的分类结果表示为f（x），假设存在一个非常小的扰动$\epsilon$，使得f(x+$\epsilon$) != f(x)，则$x+\epsilon$是一个对抗样本
+ 
+ 源代码：https://github.com/duoergun0729/adversarial_examples/blob/master/code/5-case1.ipynb
+ 
+ 通过datasets库生成样本数据。其中n_features为特征数，n_samples为生成的样本数量。
+ ```py
+ from sklearn import datasets
+ from sklearn.preprocessing import MinMaxScaler
+ import keras
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.utils import to_categorical
+ from keras.optimizers import RMSprop
+ import numpy as np
+ import matplotlib.pyplot as plt
+ ```
+ 为了方便处理，把 样本归一化到(0，1)的数据，标签转换为独热编码
+ ```py
+ n_features = 1000
+ x ,y = datasets.make_classification(n_samples = 4000, n_features = n_features, n_classes = 2, random_state = 0)
+ # 转换成独热编码
+ y = to_categorical()
+ # 归一化到（0，1）数据
+ x = MinMaxScaler().fit_transform(x)
+ ```
+ 分类模型为多层感知机，输入层为1000，输出层为2，激活函数为softmax
+ ```py
+ model = Sequential()
+ model.add(Dense(2,activation = 'softmax', input_shape = (n_features,)))
+ model.compile(loss = 'categorical_crossentropy',optimizer = RMSprop(),metrics = ['accuracy'])
+ ```
+ 打印模型结构
+ ```py
+ model.summary()
+ ```
+ 对模型进行训练，批大小为16，训练30轮，准确稳定度在86%左右
+ ```py
+ model.fit(x,y,epochs = 30,batch_size = 16)
+ ```
+ 针对第0号数据进行预测
+ ```py
+ x0 = x[0]
+ y0 = y[0]
+ x0 = np.expend_dims(x0, axis = 0)
+ y0_predict = model.predict(x0)
+ print(y0_predict)
+ index = [0,1]
+ labels = ["label 0", "label 1"]
+ probability = y0_predict[0]
+ ```
+ 增加一个0.01或者-0.01的扰动量进行预测
+ ```py
+ e = 0.01
+ cost, gradients = grab_cost_and_gradients_from_model([x0, 0])
+ n = np.sign(gradients)
+ x0 += n * e
+ y0_predict = model.predict(x0)
+ print(y0_predict)
+ ```
+ ### 基于优化的对抗样本生成算法
+ 比对原始数据与对抗样本的差距，定义一个展现函数show_images_diff，主要参数有：
+ · original_img: 原始数据
+ · original_label: 原始数据的标签
+ · adversarial_img: 对抗样本
+ · adversarial_label: 对抗样本的标签
+ ```py 
+ def show_images_diff(original_img, original_label, adversarial_img, adversarial_label):
+   if original_img.any() > 1.0:
+    original_img = original_img/255.0
+   if adversarial_img.any() > 1.0:
+    adversarial_img = adversarial_img/255.0
+   difference = adversarial_img - original_img
+   # (-1,1) > (0,1)
+   difference = difference / abs(difference).max()/2.0 + 0.5
+ ```
+ #### 使用PyTorch生成对抗样本（待完善）
+ #### 使用Tensorflow生成对抗样本
+ 源代码：http://github.com/duoergun0729/adversarial_examples/blob/master/code/5-case2-tensorflow-pb.ipynb
  
