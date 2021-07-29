@@ -1,15 +1,26 @@
 ## 题目描述
 （English）
+
+
 You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
 
+
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+
 （中文）
+
+
 给你两个非空链表，表示两个非负整数。数字以相反的顺序存储，每个节点都包含一个数字。将两个数字相加，并以链表形式返回总和。
+
+
 
 你可以确定两个数字都不是以0开头，除了0本身。
 
 ## 解题思路
 根据题面，其意思为将两个倒序数字相加后的结果，进行倒序输出。
+
+
 由此可见，可以先搜索到链表最深处，计算数字加和后，作为新链表的开头，然后依次递归。
 
 ## 代码
